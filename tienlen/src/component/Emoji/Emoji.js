@@ -50,22 +50,28 @@ const Emoji = React.memo(({ emoji }) => {
 
   return (
     <View style={styles.container}>
-        <View style={styles.item}>
-            <Emojicon name={listPosition[0].emoji === '' ? 'rage' : listPosition[0].emoji} size={50} />
-            <Text style={styles.nameText}>{ danhsachnguoichoi.a }</Text>
-        </View>
-        <View style={styles.item}>
-            <Emojicon name={listPosition[1].emoji === '' ? 'rage' : listPosition[1].emoji} size={50} />
-            <Text style={styles.nameText}>{ danhsachnguoichoi.b }</Text>
-        </View>
-        <View style={styles.item}>
-            <Emojicon name={listPosition[2].emoji === '' ? 'rage' : listPosition[2].emoji} size={50} />
-            <Text style={styles.nameText}>{ danhsachnguoichoi.c }</Text>
-        </View>
-        <View style={styles.item}>
-            <Emojicon name={listPosition[3].emoji === '' ? 'rage' : listPosition[3].emoji} size={50} />
-            <Text style={styles.nameText}>{ danhsachnguoichoi.d }</Text>
-        </View>
+        {danhsachnguoichoi.length > 0 &&
+            <>
+                <View style={styles.item}>
+                    <Emojicon name={listPosition[0].emoji === '' ? 'rage' : listPosition[0].emoji} size={50} />
+                    <Text style={styles.nameText}>{ danhsachnguoichoi[0].name }</Text>
+                </View>
+                <View style={styles.item}>
+                    <Emojicon name={listPosition[1].emoji === '' ? 'rage' : listPosition[1].emoji} size={50} />
+                    <Text style={styles.nameText}>{ danhsachnguoichoi[1].name }</Text>
+                </View>
+                <View style={styles.item}>
+                    <Emojicon name={listPosition[2].emoji === '' ? 'rage' : listPosition[2].emoji} size={50} />
+                    <Text style={styles.nameText}>{ danhsachnguoichoi[2].name }</Text>
+                </View>
+                <View style={styles.item}>
+                    <Emojicon name={listPosition[3].emoji === '' ? 'rage' : listPosition[3].emoji} size={50} />
+                    <Text style={styles.nameText}>{ danhsachnguoichoi[3].name }</Text>
+                </View>
+            </>
+
+        }
+
     </View>
   );
 });

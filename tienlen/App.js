@@ -24,6 +24,7 @@ const App: () => Node = () => {
   console.log(Stack);
   return (
     <>
+    <MainProvider>
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="home"
@@ -33,13 +34,15 @@ const App: () => Node = () => {
 
         </Stack.Navigator>
       </NavigationContainer>
+
+    </MainProvider>
+
     </>
   );
 };
 
 const Cotainer = ({ navigation }) => {
   return (
-    <MainProvider navigation={navigation}>
       <View style={styles.container}>
         <View style={[styles.box1]}>
           <Header />
@@ -50,11 +53,10 @@ const Cotainer = ({ navigation }) => {
 
         <View style={[styles.box2]}>
           <View>
-            <Danhsachdiem />
+            <Danhsachdiem navigation={navigation}/>
           </View>
         </View>
       </View>
-    </MainProvider>
   )
 }
 
