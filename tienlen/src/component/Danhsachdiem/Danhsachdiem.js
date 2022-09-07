@@ -6,10 +6,7 @@ import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 
 import { useMain } from '../../context/Main.context';
 
 function Danhsachdiem() {
-    const { isShowAddPoint, setIsShowAddPoint } = useMain();
-    const { arrPoint, editPoint, setpoint, vanTieptheo } = useMain();
-
-
+    const { arrPoint, editPoint, setpoint, vanTieptheo, isShowEnd, setShowEnd, isShowAddPoint, setIsShowAddPoint, isKetqua, setIsKetqua, navigation } = useMain();
 
     const huy = () => {
         setIsShowAddPoint(!isShowAddPoint);
@@ -29,7 +26,7 @@ function Danhsachdiem() {
                             {item.arr.map((point, j) => {
                                 return (
                                     <TextInput key={j}
-                                    style={[styles.input, { backgroundColor: j % 2 === 0 ? 'red' : 'blue' }]}
+                                    style={[styles.input, { backgroundColor: j % 2 === 0 ? '#3d7989' : '#7ea1aa' }]}
                                     onChangeText={(e) => editPoint(item.id, j, e)}
                                     value={`${point}`}
                                     keyboardType="numeric"
@@ -51,22 +48,26 @@ function Danhsachdiem() {
                 visible={isShowAddPoint}
             >
                 <View style={styles.modal}>
-                    <View style={styles.modalView}>
+                    <View style={[styles.modalView] }>
                         <Text style={styles.modalText}>Nhập điểm: </Text>
                         <View style={{ flex: 10 }}>
                             <TextInput
+                                keyboardType="numeric"
                                 style={styles.inputAdd}
                                 onChangeText={(e) => setpoint(e, 1)}
                             />
                             <TextInput
+                                keyboardType="numeric"
                                 style={styles.inputAdd}
                                 onChangeText={(e) => setpoint(e, 2)}
                             />
                             <TextInput
+                                keyboardType="numeric"
                                 style={styles.inputAdd}
                                 onChangeText={(e) => setpoint(e, 3)}
                             />
                             <TextInput
+                                keyboardType="numeric"
                                 style={styles.inputAdd}
                                 onChangeText={(e) => setpoint(e, 4)}
                             />
@@ -85,6 +86,68 @@ function Danhsachdiem() {
                                 onPress={huy}
                                 >
                                 <Text style={styles.textStyle}>Hủy</Text>
+                            </Pressable>
+                        </View>
+
+                    </View>
+                </View>
+            </Modal>
+
+        </View>
+
+        <View style={styles.end}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={isShowEnd}
+            >
+                <View style={styles.endModal}>
+                    <View style={[styles.endModalView] }>
+                        <Text style={styles.modalText}>Kết thúc sớm bớt đau khổ</Text>
+                        <View style={[styles.button]}>
+                            <Pressable
+                                style={[ styles.buttonItem, { marginHorizontal: 20 }]}
+                                onPress={() => {
+                                    setShowEnd(!isShowEnd)
+                                    setIsKetqua(true);
+                                }}
+                                >
+                                <Text style={styles.textStyle}>Ok luôn</Text>
+                            </Pressable>
+
+                            <Pressable
+                                style={[ styles.buttonItem, { marginHorizontal: 20 }]}
+                                onPress={() => {
+                                    setShowEnd(!isShowEnd)
+                                }}
+                                >
+                                <Text style={styles.textStyle}>Hủy</Text>
+                            </Pressable>
+                        </View>
+
+                    </View>
+                </View>
+            </Modal>
+
+        </View>
+        <View style={styles.end}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={isKetqua}
+            >
+                <View style={styles.endModal}>
+                    <View style={[styles.ketquaModalView] }>
+                        <Text style={styles.modalText}>Chúc mừng Bác Thọ bò!</Text>
+                        <View style={[styles.button]}>
+                            <Pressable
+                                style={[ styles.buttonItem]}
+                                onPress={() => {
+                                    setIsKetqua(false);
+                                    navigation.navigate('Home');
+                                }}
+                                >
+                                <Text style={styles.textStyle}>Trang chủ thôi!</Text>
                             </Pressable>
                         </View>
 
@@ -137,7 +200,6 @@ const styles = StyleSheet.create({
         height: 350,
       },
       button: {
-        flex: 2,
         flexDirection: 'row',
         justifyContent: 'space-between',
       },
@@ -169,5 +231,44 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 16,
       },
+
+      end: {
+        position: 'absolute',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+      },
+      endModalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 20,
+        shadowColor: '#000',
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        height: 150,
+        // backgroundColor: 'red',
+        alignItems: 'center',
+        alignContent: 'center'
+      },
+      endModal: {
+        flex: 1,
+        justifyContent: 'center',
+        
+      },
+      ketquaModalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        padding: 20,
+        shadowColor: '#000',
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        height: 200,
+        // backgroundColor: 'red',
+        alignItems: 'center',
+        alignContent: 'center'
+      }
     
   });

@@ -5,7 +5,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useMain } from '../../context/Main.context';
 function Header() {
-  const { isShowAddPoint, setIsShowAddPoint } = useMain();
+  const { isShowAddPoint, setIsShowAddPoint, isShowEnd, setShowEnd } = useMain();
   return (
     <View style={styles.container}>
       <View>
@@ -16,13 +16,14 @@ function Header() {
           <Text style={styles.vanText}>Ván: 31</Text>
         </View>
         <View style={styles.circle}>
-          <MaterialIcons name="check" size={35} color={'white'} />
+        <TouchableOpacity onPress={() => setShowEnd(!isShowEnd)}>
+            <MaterialIcons name="check" size={35} color={'white'} />
+        </TouchableOpacity>
         </View>
         <View style={styles.circle}>
           <TouchableOpacity onPress={() => setIsShowAddPoint(!isShowAddPoint)}>
             <MaterialIcons name="add" size={35} color={'white'}/>
           </TouchableOpacity>
-          
         </View>
       </View>
 

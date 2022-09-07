@@ -7,9 +7,9 @@ import { useMain } from '../../context/Main.context';
 
 const EmojiHOC = () => {
     const { emoji } = useMain();
-  
-    return <Emoji emoji={emoji}/>
-}
+
+    return <Emoji emoji={emoji}/>;
+};
 const Emoji = React.memo(({ emoji }) => {
     const [danhsachnguoichoi, setDanhsachnguoichoi] = useState([]);
     const [listPosition, setListPosition] = useState([
@@ -17,36 +17,36 @@ const Emoji = React.memo(({ emoji }) => {
         { id: 2, emoji: '' },
         { id: 3, emoji: '' },
         { id: 4, emoji: '' },
-    ])
+    ]);
     useEffect(() => {
         const getData = async () => {
             const DATA = await AsyncStorage.getItem('@danhsachnguoichoi');
             setDanhsachnguoichoi(JSON.parse(DATA));
-        }
+        };
 
         getData();
     }, []);
 
     useEffect(() => {
-        emoji.sort((a, b) => {
+        emoji.sort((a, b) => { //sắp xếp vị trí từ 1 đến 4
             return a.point - b.point;
         });
         emoji.map((item, index) => {
-            const data = listPosition.find(item1 => item1.id === item.id)
+            const data = listPosition.find(item1 => item1.id === item.id);
             data.emoji = getEmoji(index);
-        })
+        });
 
-        setListPosition([...listPosition])
+        setListPosition([...listPosition]);
 
-    }, [emoji])
+    }, [emoji]);
     console.log(7777, listPosition);
 
     const getEmoji = (value) => {
-        if (value === 0) return 'rage'
-        if (value === 1) return 'weary'
-        if (value === 2) return 'relaxed'
-        if (value === 3) return 'joy'
-    }
+        if (value === 0) {return 'rage';}
+        if (value === 1) {return 'weary';}
+        if (value === 2) {return 'relaxed';}
+        if (value === 3) {return 'joy';}
+    };
 
   return (
     <View style={styles.container}>
@@ -80,10 +80,10 @@ const styles = StyleSheet.create({
     item: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     nameText: {
         color: 'white',
-        fontSize: 16
-    }
+        fontSize: 16,
+    },
   });
