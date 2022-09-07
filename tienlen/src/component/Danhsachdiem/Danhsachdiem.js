@@ -5,8 +5,8 @@ import React from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useMain } from '../../context/Main.context';
 
-function Danhsachdiem() {
-    const { arrPoint, editPoint, setpoint, vanTieptheo, isShowEnd, setShowEnd, isShowAddPoint, setIsShowAddPoint, isKetqua, setIsKetqua, navigation } = useMain();
+function Danhsachdiem({ navigation }) {
+    const { arrPoint, editPoint, setpoint, vanTieptheo, isShowEnd, setShowEnd, isShowAddPoint, setIsShowAddPoint, isKetqua, setIsKetqua, ketThuc } = useMain();
 
     const huy = () => {
         setIsShowAddPoint(!isShowAddPoint);
@@ -144,6 +144,7 @@ function Danhsachdiem() {
                                 style={[ styles.buttonItem]}
                                 onPress={() => {
                                     setIsKetqua(false);
+                                    ketThuc();
                                     navigation.navigate('Home');
                                 }}
                                 >

@@ -1,34 +1,46 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useMain } from '../../context/Main.context';
 
 const day = dayjs().format('DD/MM/YYYY');
-const objectDefault = {
-    a: '',
-    b: '',
-    c: '',
-    d: '',
-};
+const objectDefault = [
+   {  id: 1, name: '' },
+   {  id: 2, name: '' },
+   {  id: 3, name: '' },
+   {  id: 4, name: '' },
+
+];
 function Home({ navigation }) {
+    const { loadHome } = useMain();
     const [modalVisible, setModalVisible] = useState(false);
     const [isWarning, setIsWarning] = useState('none');
-    const [danhsachnguoichoi, setDanhsachnguoichoi] = useState({
-        ...objectDefault,
-    });
+    const [danhsachnguoichoi, setDanhsachnguoichoi] = useState([...objectDefault]);
+    const [danhsachvan, setDanhsachvan] = useState([]);
+
 
 
     const themNhanvat = () => {
-        if (danhsachnguoichoi.a === '' || danhsachnguoichoi.b === '' || danhsachnguoichoi.c === '' || danhsachnguoichoi.d === '') {
+        const condition = (item) => item.name === '';
+        if (danhsachnguoichoi.every(condition)) {
           setIsWarning('flex');
         } else {
           setModalVisible(!modalVisible);
           AsyncStorage.setItem('@danhsachnguoichoi', JSON.stringify(danhsachnguoichoi));
           navigation.navigate('Container');
         }
-
     };
+
+    useEffect(() => {
+      const getData = async () => {
+          const DATA = await AsyncStorage.getItem('@listGames');
+          setDanhsachvan(JSON.parse(DATA));
+      };
+
+      getData();
+    }, [loadHome]);
 
     const huy = () => {
         setModalVisible(!modalVisible);
@@ -38,30 +50,10 @@ function Home({ navigation }) {
 
     const handleThemnguoichoi = (key, value) => {
       setIsWarning('none');
-      if (key === 1) {
-          setDanhsachnguoichoi({
-              ...danhsachnguoichoi, a: value,
-          });
-      }
-
-      if (key === 2) {
-          setDanhsachnguoichoi({
-              ...danhsachnguoichoi, b: value,
-          });
-      }
-
-      if (key === 3) {
-          setDanhsachnguoichoi({
-              ...danhsachnguoichoi, c: value,
-          });
-      }
-
-      if (key === 4) {
-          setDanhsachnguoichoi({
-              ...danhsachnguoichoi, d: value,
-          });
-      }
+      danhsachnguoichoi[key].name = value;
+      setDanhsachnguoichoi([...danhsachnguoichoi]);
     };
+
 
   return (
     <>
@@ -75,32 +67,39 @@ function Home({ navigation }) {
 
             <View style={styles.body}>
                 <ScrollView>
-                    <View style={styles.bodyItem}>
-                        <View style={styles.circle}>
-                            <Text style={styles.circleText}>Xong</Text>
-                        </View>
-                        <View style={styles.bodyContent}>
-                            <View>
-                                <Text style={styles.bodyContentText}>Thọ, Nghĩa, Quân, Minh</Text>
+                  {danhsachvan.length > 0 && 
+                    danhsachvan.map((item, index) => {
+                      let ngaytao = dayjs(item.ngaytao).format('DD/MM/YYYY HH:mm:ss')
+                      const { data } = item;
+                      // eslint-disable-next-line no-shadow
+                      let danhsachnguoichoi = '';
+                     data.map((item1, i) => {
+                        
+                        let text = ', ';
+                        if (i + 1 === data.length) {
+                          text = '';
+                        }
+                        danhsachnguoichoi = danhsachnguoichoi + item1.name + text;
+                     });
+
+                     console.log(1111, danhsachnguoichoi);
+                      return (
+                        <View style={styles.bodyItem} key={index}>
+                            <View style={styles.circle}>
+                                <Text style={styles.circleText}>Xong</Text>
                             </View>
-                            <View>
-                                <Text style={styles.bodyContentText}>{day}</Text>
+                            <View style={styles.bodyContent}>
+                                <View>
+                                    <Text style={styles.bodyContentText}>{ danhsachnguoichoi }</Text>
+                                </View>
+                                <View>
+                                    <Text style={styles.bodyContentText}>{ngaytao}</Text>
+                                </View>
                             </View>
                         </View>
-                    </View>
-                    <View style={styles.bodyItem}>
-                        <View style={styles.circle}>
-                            <Text style={styles.circleText}>Xong</Text>
-                        </View>
-                        <View style={styles.bodyContent}>
-                            <View>
-                                <Text style={styles.bodyContentText}>Thọ, Nghĩa, Quân, Minh</Text>
-                            </View>
-                            <View>
-                                <Text style={styles.bodyContentText}>{day}</Text>
-                            </View>
-                        </View>
-                    </View>
+                      )
+                    })
+                  }
                 </ScrollView>
             </View>
         </View>
@@ -120,6 +119,10 @@ function Home({ navigation }) {
                         <View style={{ flex: 10 }}>
                             <TextInput
                                 style={styles.input}
+                                onChangeText={(e) => handleThemnguoichoi(0, e)}
+                            />
+                            <TextInput
+                                style={styles.input}
                                 onChangeText={(e) => handleThemnguoichoi(1, e)}
                             />
                             <TextInput
@@ -129,10 +132,6 @@ function Home({ navigation }) {
                             <TextInput
                                 style={styles.input}
                                 onChangeText={(e) => handleThemnguoichoi(3, e)}
-                            />
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={(e) => handleThemnguoichoi(4, e)}
                             />
                         </View>
                         <Text style={[styles.warning, { display: isWarning }] }>Chưa nhập đủ tên bà già!</Text>

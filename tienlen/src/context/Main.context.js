@@ -1,5 +1,6 @@
 /* eslint-disable no-alert */
 /* eslint-disable prettier/prettier */
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useContext, useState } from 'react';
 
 export const MainContext = React.createContext({});
@@ -17,6 +18,12 @@ const setZero = () => {
     });
 }
 
+const setZeroArrPoint = () => {
+    return pointDefault.map((item) => {
+        return { ...item, arr: [] };
+    });
+}
+
 const MainProvider = ({children , navigation}) => {
     const [ok, setok] = useState(true);
     const [emoji, setEmoji] = useState([]);
@@ -31,7 +38,7 @@ const MainProvider = ({children , navigation}) => {
     const [point, setDiem] = useState([...pointDefault]);
     const [isShowEnd, setShowEnd] = useState(false);
     const [isKetqua, setIsKetqua] = useState(false);
-
+    const [loadHome, setLoadHome] = useState(false);
     const setpoint = (itemPoint, stt) => {
         const row = [...point].find((item) => item.id === stt);
         row.point = itemPoint === '' ? 0 : itemPoint;
@@ -57,13 +64,37 @@ const MainProvider = ({children , navigation}) => {
         });
         setArrPoint([...newArrPoint]);
         setok(!ok);
-        const data = setZero();
+        const data = setZero(); //sset điểm từng ván về 0
         setDiem(data);
         setEmoji([...point]);
     };
 
+    const ketThuc = async () => {
+        await AsyncStorage.setItem('@listGames', JSON.stringify([]))
+        let danhsachnguoichoi = await AsyncStorage.getItem('@danhsachnguoichoi');
+        danhsachnguoichoi = JSON.parse(danhsachnguoichoi);
+
+        const listDanhsachVan = arrPoint.map((item, index) => {
+            item.name = danhsachnguoichoi[index].name;
+            return item;
+        });
+
+        let tatcavangame = await AsyncStorage.getItem('@listGames');
+        if (!tatcavangame) {
+            tatcavangame = [];
+        } else {
+            tatcavangame = JSON.parse(tatcavangame);
+        }
+        let item = { id: Date.now() + Math.floor(Math.random() * 101), ngaytao: new Date(), data: listDanhsachVan };
+        tatcavangame.push(item)
+        AsyncStorage.setItem('@listGames', JSON.stringify(tatcavangame));
+        const data = setZeroArrPoint(); //set danh sach mảng điểm về 0
+        setArrPoint(data);
+        setLoadHome(!loadHome);
+    }
+
     return (
-    <MainContext.Provider value={{arrPoint, setpoint, editPoint, vanTieptheo, ok, isShowAddPoint, setIsShowAddPoint, emoji, isShowEnd, setShowEnd, isKetqua, setIsKetqua, navigation}}>
+    <MainContext.Provider value={{arrPoint, setpoint, editPoint, vanTieptheo, ok, isShowAddPoint, setIsShowAddPoint, emoji, isShowEnd, setShowEnd, isKetqua, setIsKetqua, navigation, ketThuc, loadHome, setLoadHome}}>
         {children}
     </MainContext.Provider>
     );
