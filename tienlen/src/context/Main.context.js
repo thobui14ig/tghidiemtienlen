@@ -10,12 +10,17 @@ const pointDefault = [
     { id: 4, point: 0 },
 ];
 
-const MainProvider = ({children}) => {
+
+const setZero = () => {
+    return pointDefault.map((item) => {
+        return { ...item, point: 0 };
+    });
+}
+
+const MainProvider = ({children , navigation}) => {
     const [ok, setok] = useState(true);
     const [emoji, setEmoji] = useState([]);
-
     const [isShowAddPoint, setIsShowAddPoint] = useState(false);
-
     const [arrPoint, setArrPoint] = useState([
         { id: 1, arr: [] },
         { id: 2, arr: [] },
@@ -23,12 +28,14 @@ const MainProvider = ({children}) => {
         { id: 4, arr: [] },
     ]);
 
-    const [point, setPoint] = useState([...pointDefault]);
+    const [point, setDiem] = useState([...pointDefault]);
+    const [isShowEnd, setShowEnd] = useState(false);
+    const [isKetqua, setIsKetqua] = useState(false);
 
     const setpoint = (itemPoint, stt) => {
         const row = [...point].find((item) => item.id === stt);
         row.point = itemPoint === '' ? 0 : itemPoint;
-        setPoint([...point]);
+        setDiem([...point]);
     };
 
     const editPoint = (id, v, pointEdit) => {// id thứ mấy và ván thứ bao nhiêu
@@ -38,21 +45,25 @@ const MainProvider = ({children}) => {
     };
 
     const vanTieptheo = () => {
-        // const check = point.every((item) => item.point === 0)
-
-        // if (check) {return alert('Chưa nhập điểm mà, thằng ngu này!');}
+        const total = point.reduce((value, item) => {
+            return value + item.point;
+        }, 0);
+        if (!total) {
+            return;
+        }
         const newArrPoint = arrPoint.map((item, i) => {
             const arr = item.arr.concat(point[i].point);
             return {...item, arr};
         });
         setArrPoint([...newArrPoint]);
         setok(!ok);
-        setPoint([...pointDefault]);
+        const data = setZero();
+        setDiem(data);
         setEmoji([...point]);
     };
 
     return (
-    <MainContext.Provider value={{arrPoint, setpoint, editPoint, vanTieptheo, ok, isShowAddPoint, setIsShowAddPoint, emoji}}>
+    <MainContext.Provider value={{arrPoint, setpoint, editPoint, vanTieptheo, ok, isShowAddPoint, setIsShowAddPoint, emoji, isShowEnd, setShowEnd, isKetqua, setIsKetqua, navigation}}>
         {children}
     </MainContext.Provider>
     );

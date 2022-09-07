@@ -37,9 +37,9 @@ const App: () => Node = () => {
   );
 };
 
-const Cotainer = () => {
+const Cotainer = ({ navigation }) => {
   return (
-    <MainProvider>
+    <MainProvider navigation={navigation}>
       <View style={styles.container}>
         <View style={[styles.box1]}>
           <Header />
