@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMain } from '../../context/Main.context';
+import Lichsu from '../Lichsu/Lichsu';
 
 const objectDefault = [
    {  id: 1, name: '' },
@@ -53,6 +54,12 @@ function Home({ navigation }) {
       setDanhsachnguoichoi([...danhsachnguoichoi]);
     };
 
+    const lichsu = (value) => {
+      navigation.navigate('Lichsu', {
+        id: value,
+      });
+    }
+
 
   return (
     <>
@@ -81,19 +88,24 @@ function Home({ navigation }) {
                      });
 
                       return (
-                        <View style={styles.bodyItem} key={index}>
-                            <View style={styles.circle}>
-                                <Text style={styles.circleText}>Xong</Text>
-                            </View>
-                            <View style={styles.bodyContent}>
-                                <View>
-                                    <Text style={styles.bodyContentText}>{ danhsachnguoichoi }</Text>
-                                </View>
-                                <View>
-                                    <Text style={styles.bodyContentText}>{ngaytao}</Text>
-                                </View>
-                            </View>
-                        </View>
+                        <TouchableOpacity key={index}
+                          onPress={() => lichsu(item.id)}
+                        >
+                          <View style={styles.bodyItem} >
+                              <View style={styles.circle}>
+                                  <Text style={styles.circleText}>Xong</Text>
+                              </View>
+                              <View style={styles.bodyContent}>
+                                  <View>
+                                      <Text style={styles.bodyContentText}>{ danhsachnguoichoi }</Text>
+                                  </View>
+                                  <View>
+                                      <Text style={styles.bodyContentText}>{ngaytao}</Text>
+                                  </View>
+                              </View>
+                          </View>
+                        </TouchableOpacity>
+
                       )
                     })
                   }

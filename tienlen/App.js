@@ -18,6 +18,7 @@ import EmojiHOC from './src/component/Emoji/Emoji';
 import Header from './src/component/Header/Header';
 import Home from './src/component/Home/Home';
 import MainProvider from './src/context/Main.context';
+import Lichsu from './src/component/Lichsu/Lichsu';
 
 const Stack = createNativeStackNavigator();
 const App: () => Node = () => {
@@ -31,6 +32,7 @@ const App: () => Node = () => {
           screenOptions={{headerShown: false}}>
           <Stack.Screen name="Home" component={Home} />
           <Stack.Screen  name="Container" component={Cotainer} />
+          <Stack.Screen  name="Lichsu" component={Lichsu} />
 
         </Stack.Navigator>
       </NavigationContainer>
