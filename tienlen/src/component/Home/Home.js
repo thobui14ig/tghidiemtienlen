@@ -5,7 +5,6 @@ import dayjs from 'dayjs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMain } from '../../context/Main.context';
 
-const day = dayjs().format('DD/MM/YYYY');
 const objectDefault = [
    {  id: 1, name: '' },
    {  id: 2, name: '' },
@@ -74,7 +73,6 @@ function Home({ navigation }) {
                       // eslint-disable-next-line no-shadow
                       let danhsachnguoichoi = '';
                      data.map((item1, i) => {
-                        
                         let text = ', ';
                         if (i + 1 === data.length) {
                           text = '';
@@ -82,7 +80,6 @@ function Home({ navigation }) {
                         danhsachnguoichoi = danhsachnguoichoi + item1.name + text;
                      });
 
-                     console.log(1111, danhsachnguoichoi);
                       return (
                         <View style={styles.bodyItem} key={index}>
                             <View style={styles.circle}>

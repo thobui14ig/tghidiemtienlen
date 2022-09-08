@@ -5,7 +5,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useMain } from '../../context/Main.context';
 function Header() {
-  const { isShowAddPoint, setIsShowAddPoint, isShowEnd, setShowEnd } = useMain();
+  const { isShowAddPoint, setIsShowAddPoint, isShowEnd, setShowEnd, tongsovan } = useMain();
   return (
     <View style={styles.container}>
       <View>
@@ -13,7 +13,7 @@ function Header() {
       </View>
       <View style={styles.hanhdong}>
         <View style={styles.van}>
-          <Text style={styles.vanText}>Ván: 31</Text>
+          <Text style={styles.vanText}>Ván: {tongsovan}</Text>
         </View>
         <View style={styles.circle}>
         <TouchableOpacity onPress={() => setShowEnd(!isShowEnd)}>

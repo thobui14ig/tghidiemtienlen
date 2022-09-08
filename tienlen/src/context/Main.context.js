@@ -39,6 +39,9 @@ const MainProvider = ({children , navigation}) => {
     const [isShowEnd, setShowEnd] = useState(false);
     const [isKetqua, setIsKetqua] = useState(false);
     const [loadHome, setLoadHome] = useState(false);
+    const [tongsovan, setTongsovan] = useState(0);
+    const [danhsachnguoichoi, setDanhsachnguoichoi] = useState([]);
+
     const setpoint = (itemPoint, stt) => {
         const row = [...point].find((item) => item.id === stt);
         row.point = itemPoint === '' ? 0 : itemPoint;
@@ -70,7 +73,7 @@ const MainProvider = ({children , navigation}) => {
     };
 
     const ketThuc = async () => {
-        await AsyncStorage.setItem('@listGames', JSON.stringify([]))
+        // await AsyncStorage.setItem('@listGames', JSON.stringify([]))
         let danhsachnguoichoi = await AsyncStorage.getItem('@danhsachnguoichoi');
         danhsachnguoichoi = JSON.parse(danhsachnguoichoi);
 
@@ -94,7 +97,7 @@ const MainProvider = ({children , navigation}) => {
     }
 
     return (
-    <MainContext.Provider value={{arrPoint, setpoint, editPoint, vanTieptheo, ok, isShowAddPoint, setIsShowAddPoint, emoji, isShowEnd, setShowEnd, isKetqua, setIsKetqua, navigation, ketThuc, loadHome, setLoadHome}}>
+    <MainContext.Provider value={{arrPoint, setpoint, editPoint, vanTieptheo, ok, isShowAddPoint, setIsShowAddPoint, emoji, isShowEnd, setShowEnd, isKetqua, setIsKetqua, navigation, ketThuc, loadHome, setLoadHome, tongsovan, setTongsovan, danhsachnguoichoi, setDanhsachnguoichoi}}>
         {children}
     </MainContext.Provider>
     );

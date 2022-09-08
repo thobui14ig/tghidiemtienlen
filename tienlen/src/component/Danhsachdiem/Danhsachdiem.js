@@ -1,12 +1,16 @@
 /* eslint-disable semi */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useMain } from '../../context/Main.context';
 
 function Danhsachdiem({ navigation }) {
-    const { arrPoint, editPoint, setpoint, vanTieptheo, isShowEnd, setShowEnd, isShowAddPoint, setIsShowAddPoint, isKetqua, setIsKetqua, ketThuc } = useMain();
+    const { arrPoint, editPoint, setpoint, vanTieptheo, isShowEnd, setShowEnd, isShowAddPoint, setIsShowAddPoint, isKetqua, setIsKetqua, ketThuc, tongsovan, setTongsovan } = useMain();
+
+    const [danhsachnguoichoi, setDanhsachnguoichoi] = useState([]);
+    const [personWin, setPersonWin] = useState({ key: 0, point: 0 })
 
     const huy = () => {
         setIsShowAddPoint(!isShowAddPoint);
@@ -14,8 +18,20 @@ function Danhsachdiem({ navigation }) {
 
     const addDiem = () => {
         setIsShowAddPoint(!isShowAddPoint);
+        setTongsovan(tongsovan + 1);
         vanTieptheo();
     }
+
+    useEffect(() => {
+        const getData = async () => {
+            const DATA = await AsyncStorage.getItem('@danhsachnguoichoi');
+            setDanhsachnguoichoi(JSON.parse(DATA));
+        };
+
+        getData();
+    }, []);
+
+    console.log(1111, danhsachnguoichoi);
   return (
     <>
         <ScrollView>
@@ -51,26 +67,21 @@ function Danhsachdiem({ navigation }) {
                     <View style={[styles.modalView] }>
                         <Text style={styles.modalText}>Nhập điểm: </Text>
                         <View style={{ flex: 10 }}>
-                            <TextInput
-                                keyboardType="numeric"
-                                style={styles.inputAdd}
-                                onChangeText={(e) => setpoint(e, 1)}
-                            />
-                            <TextInput
-                                keyboardType="numeric"
-                                style={styles.inputAdd}
-                                onChangeText={(e) => setpoint(e, 2)}
-                            />
-                            <TextInput
-                                keyboardType="numeric"
-                                style={styles.inputAdd}
-                                onChangeText={(e) => setpoint(e, 3)}
-                            />
-                            <TextInput
-                                keyboardType="numeric"
-                                style={styles.inputAdd}
-                                onChangeText={(e) => setpoint(e, 4)}
-                            />
+                            {danhsachnguoichoi.length > 0 &&
+                                danhsachnguoichoi.map((item, index) => {
+                                    return (
+                                        <View style={styles.itemNhapdiem} key={index}>
+                                            <Text style={styles.textName}>{item.name}</Text>
+                                            <TextInput
+                                                keyboardType="numeric"
+                                                style={styles.inputAdd}
+                                                onChangeText={(e) => setpoint(e, index + 1)}
+                                            />                                
+                                        </View>                                        
+                                    )
+                                })
+
+                            }
                         </View>
             
                         <View style={styles.button}>
@@ -106,7 +117,7 @@ function Danhsachdiem({ navigation }) {
                         <Text style={styles.modalText}>Kết thúc sớm bớt đau khổ</Text>
                         <View style={[styles.button]}>
                             <Pressable
-                                style={[ styles.buttonItem, { marginHorizontal: 20 }]}
+                                style={[ styles.buttonItem, { margin: 20 }]}
                                 onPress={() => {
                                     setShowEnd(!isShowEnd)
                                     setIsKetqua(true);
@@ -116,7 +127,7 @@ function Danhsachdiem({ navigation }) {
                             </Pressable>
 
                             <Pressable
-                                style={[ styles.buttonItem, { marginHorizontal: 20 }]}
+                                style={[ styles.buttonItem, { margin: 20 }]}
                                 onPress={() => {
                                     setShowEnd(!isShowEnd)
                                 }}
@@ -138,13 +149,39 @@ function Danhsachdiem({ navigation }) {
             >
                 <View style={styles.endModal}>
                     <View style={[styles.ketquaModalView] }>
-                        <Text style={styles.modalText}>Chúc mừng Bác Thọ bò!</Text>
+                        {isKetqua &&
+                            <Text style={styles.modalText}>Chúc mừng Bác {danhsachnguoichoi[personWin.key].name}!</Text>
+                        }
+                        <View style={{ flexDirection: 'row', width: '100%', flex: 1, }}>
+                            {danhsachnguoichoi.length > 0 && 
+                                danhsachnguoichoi.map((item, index) => {
+                                    let total = arrPoint[index].arr.reduce((value, x) => {
+                                        return value + Number(x)
+                                    }, 0)
+
+                                    if (total > personWin.point) {
+                                        setPersonWin({
+                                            key: index,
+                                            point: total,
+                                        })
+                                    }
+                                    return (
+                                        <View style={styles.itemDiem} key={index}>
+                                            <Text style={styles.itemName}>{ item.name }</Text>
+                                            <Text style={styles.itemPoint}>{ total }</Text>
+                                        </View>                                        
+                                    )
+                                })
+
+                            }
+                        </View>
                         <View style={[styles.button]}>
                             <Pressable
                                 style={[ styles.buttonItem]}
                                 onPress={() => {
                                     setIsKetqua(false);
                                     ketThuc();
+                                    setTongsovan(0)
                                     navigation.navigate('Home');
                                 }}
                                 >
@@ -219,10 +256,16 @@ const styles = StyleSheet.create({
       },
       modalText: {
         fontSize: 20,
-        flex: 1,
       },
       inputAdd: {
-        borderBottomWidth: 1,
+        width: '75%',
+        borderWidth: 1,
+        padding: 7,
+        marginLeft: 25,
+        fontSize: 16,
+        borderRadius: 10,
+        textAlign: 'center'
+
       },
 
       warning: {
@@ -270,6 +313,24 @@ const styles = StyleSheet.create({
         // backgroundColor: 'red',
         alignItems: 'center',
         alignContent: 'center'
+      },
+      itemDiem: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      itemName: {
+        fontSize: 20
+      },
+      itemPoint: {
+        fontSize: 16
+      },
+      textName: {
+        width: 50,
+        fontSize: 20
+      },
+      itemNhapdiem: {
+        flexDirection: 'row', alignItems: 'center', flex: 1
       }
     
   });
