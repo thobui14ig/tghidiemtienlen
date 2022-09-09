@@ -54,8 +54,6 @@ const Emoji = React.memo(({ emoji }) => {
         if (value === 3) {return 'joy';}
     };
 
-
-    console.log(2222, listPosition);
   return (
     <View style={styles.container}>
         {danhsachnguoichoi.length > 0 &&

@@ -22,7 +22,6 @@ import Lichsu from './src/component/Lichsu/Lichsu';
 
 const Stack = createNativeStackNavigator();
 const App: () => Node = () => {
-  console.log(Stack);
   return (
     <>
     <MainProvider>
