@@ -25,6 +25,13 @@ const Emoji = React.memo(({ emoji }) => {
         };
 
         getData();
+
+        setListPosition([
+            { id: 1, emoji: '' },
+            { id: 2, emoji: '' },
+            { id: 3, emoji: '' },
+            { id: 4, emoji: '' },
+        ])
     }, []);
 
     useEffect(() => {
@@ -47,6 +54,8 @@ const Emoji = React.memo(({ emoji }) => {
         if (value === 3) {return 'joy';}
     };
 
+
+    console.log(2222, listPosition);
   return (
     <View style={styles.container}>
         {danhsachnguoichoi.length > 0 &&

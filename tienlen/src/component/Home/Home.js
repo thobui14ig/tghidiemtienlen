@@ -32,12 +32,12 @@ function Home({ navigation }) {
 
     useEffect(() => {
       const getData = async () => {
-          let DATA = await AsyncStorage.getItem('@listGames');
-          console.log('111', DATA);
-          if (!DATA) {
-            DATA = []
+          let data = await AsyncStorage.getItem('@listGames');
+          data = JSON.parse(data);
+          if (!data) {
+            data = []
           }
-          setDanhsachvan(JSON.parse(DATA));
+          setDanhsachvan(data.reverse());
       };
 
       getData();
@@ -104,7 +104,7 @@ function Home({ navigation }) {
                                       <Text style={styles.bodyContentText}>{ danhsachnguoichoi }</Text>
                                   </View>
                                   <View>
-                                      <Text style={styles.bodyContentText}>{ngaytao}</Text>
+                                      <Text style={styles.bodyContentNgaytao}>{ngaytao}</Text>
                                   </View>
                               </View>
                           </View>
@@ -300,5 +300,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 16,
   },
+  bodyContentNgaytao: {
+    color: 'white',
+    fontSize: 12,
+  }
 
 });
