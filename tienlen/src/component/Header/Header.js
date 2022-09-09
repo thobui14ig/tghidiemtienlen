@@ -16,9 +16,9 @@ function Header() {
           <Text style={styles.vanText}>Ván: {tongsovan}</Text>
         </View>
         <View style={styles.circle}>
-        <TouchableOpacity onPress={() => setShowEnd(!isShowEnd)}>
-            <MaterialIcons name="check" size={35} color={'white'} />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => setShowEnd(!isShowEnd)}>
+              <MaterialIcons name="check" size={35} color={'white'} />
+          </TouchableOpacity>
         </View>
         <View style={styles.circle}>
           <TouchableOpacity onPress={() => setIsShowAddPoint(!isShowAddPoint)}>

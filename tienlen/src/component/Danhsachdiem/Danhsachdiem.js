@@ -31,7 +31,48 @@ function Danhsachdiem({ navigation }) {
         getData();
     }, []);
 
-    console.log(1111, danhsachnguoichoi);
+    useEffect(() => {
+        let newDanhsachnguoichoi = danhsachnguoichoi.map((item, index) => {
+            let data = arrPoint.find(item1 => item1.id === index + 1)
+            let total = getTotal(data.arr)
+            return { ...item, total }
+        })
+
+        const position = newDanhsachnguoichoi.map(item => {
+            return { id: item.id, point: item.total }
+        })
+        position.sort((a, b) => { //sắp xếp vị trí từ 1 đến 4
+            return a.point - b.point;
+        });
+        position.map((item, index) => {
+            const data = newDanhsachnguoichoi.find(item1 => item1.id === item.id);
+            data.ketqua = getKetqua(index + 1);
+            data.color = getColor(index + 1);
+        });
+
+        setDanhsachnguoichoi(newDanhsachnguoichoi);
+
+    }, [arrPoint])
+
+    const getTotal = (arr) => {
+        return arr.reduce((a, b) => Number(a) + Number(b), 0)
+    };
+
+    const getKetqua = (value) => {
+        if (value === 1 || value === 2) {return 'Thua';}
+        if (value === 3 || value === 4) {return 'Thắng';}
+
+    };
+
+    const getColor = (value) => {
+        if (value === 1 || value === 2) {return '#0970cd';}
+        if (value === 3 || value === 4) {return 'red';}
+
+    };
+
+
+
+    
   return (
     <>
         <ScrollView>
@@ -155,20 +196,21 @@ function Danhsachdiem({ navigation }) {
                         <View style={{ flexDirection: 'row', width: '100%', flex: 1, }}>
                             {danhsachnguoichoi.length > 0 && 
                                 danhsachnguoichoi.map((item, index) => {
-                                    let total = arrPoint[index].arr.reduce((value, x) => {
-                                        return value + Number(x)
-                                    }, 0)
-
-                                    if (total > personWin.point) {
+                                    if (item.total > personWin.point) {
                                         setPersonWin({
                                             key: index,
-                                            point: total,
+                                            point: item.total,
                                         })
                                     }
                                     return (
                                         <View style={styles.itemDiem} key={index}>
                                             <Text style={styles.itemName}>{ item.name }</Text>
-                                            <Text style={styles.itemPoint}>{ total }</Text>
+                                            <Text style={styles.itemPoint}>{ item.total }</Text>
+                                            <View style={[styles.circle, { backgroundColor: item.color }]}>
+                                                <Text style={[styles.itemPosition]}>{item.ketqua}</Text>
+                                            </View>
+                                            
+
                                         </View>                                        
                                     )
                                 })
@@ -182,6 +224,7 @@ function Danhsachdiem({ navigation }) {
                                     setIsKetqua(false);
                                     ketThuc();
                                     setTongsovan(0)
+                                    setDanhsachnguoichoi([])
                                     navigation.navigate('Home');
                                 }}
                                 >
@@ -309,7 +352,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        height: 200,
+        height: 260,
         // backgroundColor: 'red',
         alignItems: 'center',
         alignContent: 'center'
@@ -331,6 +374,18 @@ const styles = StyleSheet.create({
       },
       itemNhapdiem: {
         flexDirection: 'row', alignItems: 'center', flex: 1
-      }
+      },
+      itemPosition: {
+        color: 'white'
+      },
+      circle: {
+        borderRadius: 30,
+        width: 50,
+        height: 50,
+        // backgroundColor: '#0970cd',
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
     
   });
