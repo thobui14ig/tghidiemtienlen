@@ -39,7 +39,6 @@ const Emoji = React.memo(({ emoji }) => {
         setListPosition([...listPosition]);
 
     }, [emoji]);
-    console.log(7777, listPosition);
 
     const getEmoji = (value) => {
         if (value === 0) {return 'rage';}

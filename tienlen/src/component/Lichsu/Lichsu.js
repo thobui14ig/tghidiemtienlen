@@ -13,13 +13,56 @@ function Lichsu({ route }) {
             let DATA = await AsyncStorage.getItem('@listGames');
             DATA = JSON.parse(DATA);
             const options = DATA.find(item => Number(item.id) === id);
-            setDanhsachvan(options.data);
+            const newData = options.data.map((item) => {
+                return { ...item, total: getTotal(item.arr) }
+            })
+
+            // newData.sort((a, b) => { //sắp xếp vị trí từ 1 đến 4
+            //     return a.total - b.total;
+            // });
+            const position = newData.map(item => {
+                return { id: item.id, point: item.total }
+            })
+
+            position.sort((a, b) => { //sắp xếp vị trí từ 1 đến 4
+                return a.point - b.point;
+            });
+            position.map((item, index) => {
+                const data = newData.find(item1 => item1.id === item.id);
+                data.emoji = getEmoji(index);
+            });
+
+            console.log(111, newData);
+
+            setDanhsachvan(newData);
         };
         getData();
       }, []);
 
+    const getTotal = (arr) => {
+        return arr.reduce((a, b) => Number(a) + Number(b), 0)
+    };
 
-    console.log(1111, danhsachvan);
+    const getEmoji = (value) => {
+        if (value === 0) {return 'rage';}
+        if (value === 1) {return 'weary';}
+        if (value === 2) {return 'relaxed';}
+        if (value === 3) {return 'joy';}
+    };
+
+    
+    // useEffect(() => {
+
+
+    //     danhsachvan.sort((a, b) => { //sắp xếp vị trí từ 1 đến 4
+    //         return getTotal(a.arr) - getTotal([b.arr]);
+    //     });
+    //     console.log(111221, danhsachvan);
+    // }, []);
+
+    
+
+
   return (
     <View style={{ flex: 1, backgroundColor: '#2196F3' }}>
         <View style={styles.containerHeader}>
@@ -37,26 +80,18 @@ function Lichsu({ route }) {
                  danhsachvan.map((item, index) => {
                     return (
                         <View style={styles.item} key={index}>
-                            <Emojicon name={'rage'} size={50} />
+                            <Emojicon name={item.emoji} size={50} />
                             <Text style={styles.nameText}>{ item.name }</Text>
+                            <View  style={styles.circle}>
+                                <Text style={{  color: 'white', fontSize: 16 }}>{ item.total }</Text>
+                            </View>
+
                         </View>
                     )
                  })
 
             }
-{/* 
-            <View style={styles.item}>
-                <Emojicon name={'rage'} size={50} />
-                <Text style={styles.nameText}>ádsadsadsa</Text>
-            </View>
-            <View style={styles.item}>
-                <Emojicon name={'rage'} size={50} />
-                <Text style={styles.nameText}>ádsadsadsa</Text>
-            </View>
-            <View style={styles.item}>
-                <Emojicon name={'rage'} size={50} />
-                <Text style={styles.nameText}>ádsadsadsa</Text>
-            </View> */}
+
         </View>
         <View style={styles.main}>
             <ScrollView>
@@ -67,12 +102,7 @@ function Lichsu({ route }) {
                                 <View style={styles.item} key={i}>
                                     {item.arr.map((point, j) => {
                                         return (
-                                            <TextInput key={j}
-                                            style={[styles.input, { backgroundColor: j % 2 === 0 ? '#3d7989' : '#7ea1aa' }]}
-                                            value={`${point}`}
-                                            keyboardType="numeric"
-                                            // eslint-disable-next-line react-native/no-inline-styles
-                                            />
+                                            <Text style={[styles.input, { backgroundColor: j % 2 === 0 ? '#3d7989' : '#7ea1aa' }]}>{point}</Text>
                                         )
                                     })
                                     }
@@ -139,4 +169,14 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 16,
     },
+    circle: {
+        borderRadius: 30,
+        width: 50,
+        height: 50,
+        backgroundColor: '#0970cd',
+        margin: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+       
+      },
   });

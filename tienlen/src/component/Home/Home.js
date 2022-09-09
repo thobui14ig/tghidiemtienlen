@@ -1,10 +1,9 @@
 /* eslint-disable prettier/prettier */
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import dayjs from 'dayjs';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMain } from '../../context/Main.context';
-import Lichsu from '../Lichsu/Lichsu';
 
 const objectDefault = [
    {  id: 1, name: '' },
@@ -20,8 +19,6 @@ function Home({ navigation }) {
     const [danhsachnguoichoi, setDanhsachnguoichoi] = useState([...objectDefault]);
     const [danhsachvan, setDanhsachvan] = useState([]);
 
-
-
     const themNhanvat = () => {
         const condition = (item) => item.name === '';
         if (danhsachnguoichoi.every(condition)) {
@@ -35,12 +32,19 @@ function Home({ navigation }) {
 
     useEffect(() => {
       const getData = async () => {
-          const DATA = await AsyncStorage.getItem('@listGames');
+          let DATA = await AsyncStorage.getItem('@listGames');
+          console.log('111', DATA);
+          if (!DATA) {
+            DATA = []
+          }
           setDanhsachvan(JSON.parse(DATA));
       };
 
       getData();
     }, [loadHome]);
+
+
+
 
     const huy = () => {
         setModalVisible(!modalVisible);
