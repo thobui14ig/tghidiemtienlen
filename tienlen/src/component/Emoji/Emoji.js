@@ -87,6 +87,7 @@ export default EmojiHOC;
 const styles = StyleSheet.create({
     container: {
       flexDirection: 'row',
+    //   backgroundColor: 'white',
       zIndex: 1000,
     },
     item: {

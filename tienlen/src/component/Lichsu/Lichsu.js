@@ -88,7 +88,7 @@ function Lichsu({ route }) {
                                     {item.arr.map((point, j) => {
                                         return (
                                             <Text key={j} style={[styles.input, { backgroundColor: j % 2 === 0 ? '#3d7989' : '#7ea1aa' }]}>{point}</Text>
-                                        )
+                                        );
                                     })
                                     }
                                 </View>

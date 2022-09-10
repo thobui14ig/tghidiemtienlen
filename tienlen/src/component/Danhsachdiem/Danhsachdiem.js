@@ -3,11 +3,18 @@
 /* eslint-disable prettier/prettier */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
-import { Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMain } from '../../context/Main.context';
 
+// const Item = ({ title }) => (
+//     <View style={styles.item}>
+//       <Text style={styles.title}>{title}</Text>
+//     </View>
+//   );
+  
 function Danhsachdiem({ navigation }) {
-    const { arrPoint, editPoint, setpoint, vanTieptheo, isShowEnd, setShowEnd, isShowAddPoint, setIsShowAddPoint, isKetqua, setIsKetqua, ketThuc, tongsovan, setTongsovan } = useMain();
+    let { arrPoint, editPoint, setpoint, vanTieptheo, isShowEnd, setShowEnd, isShowAddPoint, setIsShowAddPoint, isKetqua, setIsKetqua, ketThuc, tongsovan, setTongsovan } = useMain();
 
     const [danhsachnguoichoi, setDanhsachnguoichoi] = useState([]);
     const [personWin, setPersonWin] = useState({ key: 0, point: 0 })
@@ -70,34 +77,82 @@ function Danhsachdiem({ navigation }) {
 
     };
 
+    const renderItem = ({ item, index }) => {
+        return (
+            <View style={{ flex: 1, flexDirection: 'row' }} >
+                <View style={{ flex: 1 }}>
+                    <Text 
+                        style={[styles.input]}
+                        >{arrPoint[0]['arr'][index]}
+                    </Text>                    
+                </View>
+                <View style={{ flex: 1 }}>
+                    <Text 
+                        style={[styles.input]}
+                        >{arrPoint[1]['arr'][index]}
+                    </Text>                    
+                </View>
+                <View style={{ flex: 1 }}>
+                    <Text 
+                        style={[styles.input]}
+                        >{arrPoint[2]['arr'][index]}
+                    </Text>                    
+                </View>
+                <View style={{ flex: 1 }}>
+                    <Text 
+                        style={[styles.input]}
+                        >{arrPoint[3]['arr'][index]}
+                    </Text>                    
+                </View>
 
 
-    
+            </View>
+           
+        )        
+    }
+     
+
+
+
+    // let arr = [{"arr": [1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2], "id": 1}, {"arr": [1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2], "id": 2}, {"arr": [1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2], "id": 3}, {"arr": [1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2], "id": 4}]
+    // console.log(222222222, arrPoint);
   return (
     <>
-        <ScrollView>
+        <SafeAreaView >
             <View style={styles.container}>
-                {arrPoint.map((item, i) => {
+                {/* {arr[0]['arr'].map((item, i) => {
                     return (
                         <View style={styles.item} key={i}>
+                            
                             {item.arr.map((point, j) => {
                                 return (
-                                    <TextInput key={j}
-                                    style={[styles.input, { backgroundColor: j % 2 === 0 ? '#3d7989' : '#7ea1aa' }]}
-                                    onChangeText={(e) => editPoint(item.id, j, e)}
-                                    value={`${point}`}
-                                    keyboardType="numeric"
-                                    // eslint-disable-next-line react-native/no-inline-styles
-                                    />
-                                )
-                            })
+                                        <TextInput key={j}
+                                        style={[styles.input]}
+                                        onChangeText={(e) => editPoint(item.id, j, e)}
+                                        value={`${point}`}
+                                        keyboardType="numeric"
+                                        // eslint-disable-next-line react-native/no-inline-styles
+                                        />
+                                    )
+                                })
                             }
+
+
+
                         </View>
                         );
                     })
-                }
+                } */}
+                
+                <FlatList
+                    data={arrPoint[0]['arr']}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                />
             </View>
-        </ScrollView>
+        </SafeAreaView>        
+
+
         <View style={styles.centeredView}>
             <Modal
                 animationType="slide"
