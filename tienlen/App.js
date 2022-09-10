@@ -22,17 +22,20 @@ import Lichsu from './src/component/Lichsu/Lichsu';
 
 const Stack = createNativeStackNavigator();
 const App: () => Node = () => {
-  console.log(Stack);
   return (
     <>
     <MainProvider>
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="home"
-          screenOptions={{headerShown: false}}>
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen  name="Container" component={Cotainer} />
-          <Stack.Screen  name="Lichsu" component={Lichsu} />
+          screenOptions={{headerShown: false}} 
+         >
+          <Stack.Screen name="Home" component={Home}  />
+          <Stack.Screen name="Container" component={Cotainer} />
+          <Stack.Screen  name="Lichsu" component={Lichsu} options={{
+            headerShown: true,
+            headerTitle: "Lịch sử"
+            }}  />
 
         </Stack.Navigator>
       </NavigationContainer>
@@ -41,7 +44,7 @@ const App: () => Node = () => {
 
     </>
   );
-};
+};  
 
 const Cotainer = ({ navigation }) => {
   return (

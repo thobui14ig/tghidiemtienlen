@@ -32,8 +32,6 @@ function Lichsu({ route }) {
                 data.emoji = getEmoji(index);
             });
 
-            console.log(111, newData);
-
             setDanhsachvan(newData);
         };
         getData();
@@ -49,19 +47,6 @@ function Lichsu({ route }) {
         if (value === 2) {return 'relaxed';}
         if (value === 3) {return 'joy';}
     };
-
-    
-    // useEffect(() => {
-
-
-    //     danhsachvan.sort((a, b) => { //sắp xếp vị trí từ 1 đến 4
-    //         return getTotal(a.arr) - getTotal([b.arr]);
-    //     });
-    //     console.log(111221, danhsachvan);
-    // }, []);
-
-    
-
 
   return (
     <View style={{ flex: 1, backgroundColor: '#2196F3' }}>
@@ -103,7 +88,7 @@ function Lichsu({ route }) {
                                     {item.arr.map((point, j) => {
                                         return (
                                             <Text key={j} style={[styles.input, { backgroundColor: j % 2 === 0 ? '#3d7989' : '#7ea1aa' }]}>{point}</Text>
-                                        )
+                                        );
                                     })
                                     }
                                 </View>
