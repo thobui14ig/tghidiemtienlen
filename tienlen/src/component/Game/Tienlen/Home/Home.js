@@ -3,15 +3,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { useMain } from '../../context/Main.context';
+import { useMain } from '../../../../context/Main.context';
 
 const objectDefault = [
    {  id: 1, name: '' },
    {  id: 2, name: '' },
    {  id: 3, name: '' },
    {  id: 4, name: '' },
-
 ];
+
 function Home({ navigation }) {
     const { loadHome } = useMain();
     const [modalVisible, setModalVisible] = useState(false);
@@ -35,7 +35,7 @@ function Home({ navigation }) {
           let data = await AsyncStorage.getItem('@listGames');
           data = JSON.parse(data);
           if (!data) {
-            data = []
+            data = [];
           }
           setDanhsachvan(data.reverse());
       };
@@ -303,6 +303,5 @@ const styles = StyleSheet.create({
   bodyContentNgaytao: {
     color: 'white',
     fontSize: 12,
-  }
-
+  },
 });

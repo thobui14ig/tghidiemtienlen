@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Emojicon from 'react-native-emojicon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useMain } from '../../context/Main.context';
+import { useMain } from '../../../../context/Main.context';
+
 
 const EmojiHOC = () => {
     const { emoji } = useMain();
