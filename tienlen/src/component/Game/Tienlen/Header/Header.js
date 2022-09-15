@@ -3,7 +3,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { useMain } from '../../context/Main.context';
+import { useMain } from '../../../../context/Main.context';
 function Header() {
   const { isShowAddPoint, setIsShowAddPoint, isShowEnd, setShowEnd, tongsovan } = useMain();
   return (

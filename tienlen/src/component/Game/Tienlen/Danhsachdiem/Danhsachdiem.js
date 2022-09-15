@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { FlatList, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useMain } from '../../context/Main.context';
+import { useMain } from '../../../../context/Main.context';
 
 // const Item = ({ title }) => (
 //     <View style={styles.item}>
@@ -120,34 +120,10 @@ function Danhsachdiem({ navigation }) {
     <>
         <SafeAreaView >
             <View style={styles.container}>
-                {/* {arr[0]['arr'].map((item, i) => {
-                    return (
-                        <View style={styles.item} key={i}>
-                            
-                            {item.arr.map((point, j) => {
-                                return (
-                                        <TextInput key={j}
-                                        style={[styles.input]}
-                                        onChangeText={(e) => editPoint(item.id, j, e)}
-                                        value={`${point}`}
-                                        keyboardType="numeric"
-                                        // eslint-disable-next-line react-native/no-inline-styles
-                                        />
-                                    )
-                                })
-                            }
-
-
-
-                        </View>
-                        );
-                    })
-                } */}
-                
                 <FlatList
                     data={arrPoint[0]['arr']}
                     renderItem={renderItem}
-                    keyExtractor={item => item.id}
+                    keyExtractor={(item, index) => index}
                 />
             </View>
         </SafeAreaView>        
@@ -280,7 +256,7 @@ function Danhsachdiem({ navigation }) {
                                     ketThuc();
                                     setTongsovan(0)
                                     setDanhsachnguoichoi([])
-                                    navigation.navigate('Home');
+                                    navigation.navigate('Gametienlen');
                                 }}
                                 >
                                 <Text style={styles.textStyle}>Trang chủ thôi!</Text>
@@ -356,7 +332,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
       },
       inputAdd: {
-        width: '75%',
+        width: '70%',
         borderWidth: 1,
         padding: 7,
         marginLeft: 25,
@@ -424,7 +400,7 @@ const styles = StyleSheet.create({
         fontSize: 16
       },
       textName: {
-        width: 50,
+        width: 70,
         fontSize: 20
       },
       itemNhapdiem: {

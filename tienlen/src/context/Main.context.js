@@ -94,7 +94,7 @@ const MainProvider = ({children , navigation}) => {
         const data = setZeroArrPoint(); //set danh sach mảng điểm về 0
         setArrPoint(data);
         setLoadHome(!loadHome);
-    }
+    };
 
     return (
     <MainContext.Provider value={{arrPoint, setpoint, editPoint, vanTieptheo, ok, isShowAddPoint, setIsShowAddPoint, emoji, isShowEnd, setShowEnd, isKetqua, setIsKetqua, navigation, ketThuc, loadHome, setLoadHome, tongsovan, setTongsovan, danhsachnguoichoi, setDanhsachnguoichoi}}>
