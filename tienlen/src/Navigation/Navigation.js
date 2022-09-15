@@ -2,6 +2,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+import Login from '../component/Auth/Login';
 import Cotainer from '../component/Game/Tienlen/Container/Container';
 import Home from '../component/Game/Tienlen/Home/Home';
 import Lichsu from '../component/Game/Tienlen/Lichsu/Lichsu';
@@ -14,6 +15,7 @@ function Navigation() {
       <Stack.Navigator
         initialRouteName="home"
         screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="MyTabs" component={MyTabs} />
         <Stack.Screen
           name="Gametienlen"
