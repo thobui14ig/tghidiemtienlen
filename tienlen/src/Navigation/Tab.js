@@ -1,10 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Button, Image, Text, View } from 'react-native';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Game from '../component/Game/Index';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
@@ -62,9 +63,21 @@ function HomeScreen() {
 }
 
 function SettingsScreen() {
+  const navigation = useNavigation();
+  const logout = () => {
+    navigation.navigate('Login')
+  }
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Settings!</Text>
+      <Image 
+        source={require('./../public/anh.jpg')}  
+        style={{width: 200, height: 200, borderRadius: 400/ 2, marginBottom: 10}} 
+      />
+      <Button
+        onPress={logout}
+        title="Đăng xuất"
+        color="#841584"
+      />
     </View>
   );
 }
